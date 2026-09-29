@@ -1,0 +1,50 @@
+STEP 11 — Build Redux Auth State
+//why  
+                 Redux Store
+                     │
+          ┌──────────┴──────────┐
+          │                     │
+       auth state          future states
+          │
+   ┌──────┼─────────┐
+   │      │         │
+ user  isAuth    loading
+
+
+//after implement the redux state the flow of our app wil be 
+
+React Components
+       │
+       │ dispatch()
+       ▼
+   authSlice
+       │
+       │ calls API
+       ▼
+   API service
+       │
+       ▼
+    Backend
+       │
+       ▼
+    Response
+       │
+       ▼
+   authSlice
+       │
+       ▼
+ Redux Store
+       │
+       ▼
+React Components
+
+
+//Redux will be give us 
+Provider
+useSelector
+useDispatch,etc
+
+
+//it is necassary to add payload in the redux 
+
+//todos 

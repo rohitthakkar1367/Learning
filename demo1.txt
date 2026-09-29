@@ -1,0 +1,211 @@
+//todos :-
+//SafeUser ko har fn mein manually karna iski jagah hum ek utility hi bana de jo ki optimized way 
+//why we create the Sclice in redux app in the   11th step 
+//and why we created that ?//dont ve fa
+//createAsyncThunk          understand these before moving toward the new step to create the redux store 
+
+
+
+//Full Stack App 
+//From the notein step:-08
+
+//in these section what we are doing 
+//build singup (frontend+backend both)
+//work flow 
+        FRONTEND
+           │
+           │ POST /api/auth/signup
+           │
+           ▼
+    ┌───────────────┐
+    │ Express Route │
+    │ auth.routes.ts│
+    └───────┬───────┘
+            │
+            ▼
+    ┌──────────────────┐
+    │ Auth Controller  │
+    │ auth.controller  │
+    └────────┬─────────┘
+             │
+             ▼
+       User.create(...)
+             │
+             ▼
+    ┌──────────────────┐
+    │ Mongoose Model   │
+    │    User.ts       │
+    └────────┬─────────┘
+             │
+             │ pre("save")
+             ▼
+       bcrypt hashing
+             │
+             ▼
+         MongoDB
+             │
+             ▼
+       User created
+             │
+             ▼
+    Safe response
+             │
+             ▼
+        FRONTEND
+             │
+             ▼
+        /login
+
+
+//
+/-----------------------------------------------
+
+┌──────────────────────┐
+│      React UI        │
+│   Signup Form        │
+└──────────┬───────────┘
+           │
+           │ User enters:
+           │ name
+           │ email
+           │ password
+           ↓
+┌──────────────────────┐
+│   Signup Component   │
+│                      │
+│ handleSubmit()       │
+└──────────┬───────────┘
+           │
+           │ signup(formData)
+           ↓
+┌──────────────────────┐
+│      api.ts          │
+│                      │
+│ Axios signup()       │
+└──────────┬───────────┘
+           │
+           │ POST
+           ↓
+┌──────────────────────────────┐
+│ http://localhost:5000/api    │
+│        /auth/signup          │
+└──────────────┬───────────────┘
+               │
+               │ HTTP Request
+               ↓
+┌──────────────────────────────┐
+│          Express             │
+│                              │
+│ app.use("/api/auth", routes) │
+└──────────────┬───────────────┘
+               │
+               ↓
+┌──────────────────────────────┐
+│      auth.routes.ts          │
+│                              │
+│ POST("/signup", signup)      │
+└──────────────┬───────────────┘
+               │
+               ↓
+┌──────────────────────────────┐
+│    auth.controller.ts        │
+│                              │
+│       signup()               │
+└──────────────┬───────────────┘
+               │
+               │ Validate
+               ↓
+        ┌───────────────┐
+        │ name/email/   │
+        │ password?     │
+        └───────┬───────┘
+                │
+                ↓
+        Check existing email
+                │
+                ↓
+        User.findOne()
+                │
+                ↓
+          User.create()
+                │
+                ↓
+┌──────────────────────────────┐
+│       User.ts / Mongoose     │
+│                              │
+│       pre("save")            │
+└──────────────┬───────────────┘
+               │
+               ↓
+         bcrypt.hash()
+               │
+               ↓
+      Password becomes hash
+               │
+               ↓
+┌──────────────────────────────┐
+│          MongoDB             │
+│                              │
+│       Save user document     │
+└──────────────┬───────────────┘
+               │
+               ↓
+      Create SafeUser object
+               │
+               ↓
+        HTTP 201 Response
+               │
+               ↓
+┌──────────────────────────────┐
+│          Axios               │
+│       response.data          │
+└──────────────┬───────────────┘
+               │
+               ↓
+┌──────────────────────────────┐
+│        React Component       │
+│                              │
+│   signup() completed         │
+└──────────────┬───────────────┘
+               │
+               ↓
+         navigate("/login")
+               │
+               ↓
+┌──────────────────────┐
+│     Login Page       │
+└──────────────────────┘
+
+
+
+//part 9 
+//craete sesion and also the mangment part for that
+//https://claude.ai/chat/9442197b-a453-4c6d-bde2-bd1c5281ebbb
+//what is cookies and session 
+//why we need the session 
+//workflow 
+//how we implement the  logout---->session.destory()
+//basic workflow for the login feature 
+
+React Login Form
+       ↓
+login(formData)
+       ↓
+POST /api/auth/login
+       ↓
+Express Backend
+       ↓
+Create Session
+       ↓
+HttpOnly Cookie
+       ↓
+Browser stores cookie
+       ↓
+Future requests automatically carry the cookie  
+
+
+//step 10 
+// make the api api/auth/me 
+//based  in the session cookies we can say that who is currently logged in 
+//part a
+//                                                 

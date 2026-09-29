@@ -1,0 +1,127 @@
+
+//An async thunk in Redux is a pattern used to handle asynchronous logic and side effects (like API data fetching)
+ that interact with the Redux store
+//In Redux Toolkit's createAsyncThunk, rejectWithValue is a utility function used to pass a custom, structured error payload when an asynchronous operation fails.By default, if an error is thrown inside a thunk, Redux Toolkit automatically dispatches a rejected action with a generic action.error object containing basic 
+info like message and name. However, rejectWithValue allows you to override this behavior and inject your own detailed backend error messages or validation payloads directly into action.payload
+//In Redux Toolkit, the payload is the actual data carried by an action object
+
+https://medium.com/@abha.meshram/how-backend-connects-with-frontend-in-a-react-redux-toolkit-app-d22fe71cf036
+//when we fill data in the frontennd
+ 
+Aur Login button press karta hai.
+tab->dispatch(login(data))
+//In Redux Toolkit with TypeScript and React, .unwrap() is used to handle 
+the lifecycle of an asynchronous thunk (createAsyncThunk) directly within your React component.
+dispatch(signupUser())
+        ↓
+   API request
+        ↓
+   ┌────┴────┐
+   ↓         ↓
+SUCCESS    FAILURE
+   ↓         ↓
+unwrap()   unwrap()
+   ↓         ↓
+continue   throw error
+   ↓         ↓
+/login      catch
+//why the catch block is empty ->ans :ref https://chatgpt.com/c/6aba54ab-382c-83ee-bce1-7222a431c274 these 
+              Signup
+                ↓
+       dispatch(signupUser())
+                ↓
+             API call
+                ↓
+          ┌─────┴─────┐
+          ↓           ↓
+       SUCCESS      FAILURE
+          ↓           ↓
+       unwrap()    unwrap()
+          ↓           ↓
+       continue    throws
+          ↓           ↓
+   navigate()      catch
+     /login          ↓
+                   stop
+                     +
+              Redux has error
+                     ↓
+              UI displays error
+
+
+
+
+
+
+
+
+
+
+
+Redux empty
+     ↓
+fetchCurrentUser()
+     ↓
+GET /api/auth/me
+     ↓
+Cookie
+     ↓
+Backend session
+     ↓
+MongoDB
+     ↓
+User
+     ↓
+Response
+     ↓
+Redux user
+     ↓
+isAuthenticated = true
+     ↓
+UI
+
+
+//WHEN WE REFRESH OUR APP THEN WORKFLOW WILL BE 
+              LOGIN
+                │
+                ▼
+       Backend creates session
+                │
+                ▼
+       Browser stores cookie
+                │
+                ▼
+       Redux = logged in
+                │
+                │
+             REFRESH
+                │
+                ▼
+       Redux gets destroyed
+                │
+                ▼
+       Redux = initialState
+       user = null
+                │
+                ▼
+       App calls GET /auth/me
+                │
+                ▼
+       Browser sends session cookie
+                │
+                ▼
+       Backend validates session
+                │
+                ▼
+       Backend returns user
+                │
+                ▼
+       Redux gets user again
+                │
+                ▼
+       isAuthenticated = true
+                │
+                ▼
+          USER STILL LOGGED IN
+
+
