@@ -1,0 +1,10 @@
+todos 
+ 
+
+
+---> client side ui updattion 
+---> saprate the user information module with the user icon in nav 
+--->unlogged user also can access to home 
+--->and add nav saprate 
+
+------------->ETC   
